@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 
-app.use('/students', expressProxy(process.env.STUDENTS_SERVICE_URL));
+app.use('/api/students', expressProxy(process.env.STUDENTS_SERVICE_URL));
 
 
 app.listen(PORT, () => {
