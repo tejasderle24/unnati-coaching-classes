@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; 
+import logo1 from '../assets/logo1.svg'
 import { Menu, X, ChevronDown } from "lucide-react";
 
 const Navbar = () => {
@@ -10,11 +11,11 @@ const Navbar = () => {
   const toggleCourses = () => setShowCourses(!showCourses);
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+    <nav className="bg-white shadow-md sticky top-0 z-50 font-primary">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center font-primary">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-          <img src="/logo.png" alt="Unnati Logo" className="h-10 w-10" />
+          <img src={logo1} alt="Unnati Logo" className="h-20 w-20" />
           <h1 className="text-xl font-bold text-blue-800">
             Unnati Coaching Classes
           </h1>
@@ -41,17 +42,17 @@ const Navbar = () => {
             {showCourses && (
               <ul className="absolute top-8 left-0 bg-white shadow-lg rounded-lg py-2 w-48 border">
                 <li>
-                  <Link to="/courses/school" className="block px-4 py-2 hover:bg-gray-100">
+                  <Link to="/OurCourses/school" className="block px-4 py-2 hover:bg-gray-100">
                     School (8th-10th)
                   </Link>
                 </li>
                 <li>
-                  <Link to="/courses/junior" className="block px-4 py-2 hover:bg-gray-100">
+                  <Link to="/OurCourses/junior" className="block px-4 py-2 hover:bg-gray-100">
                     Junior College (11th-12th)
                   </Link>
                 </li>
                 <li>
-                  <Link to="/courses/competitive" className="block px-4 py-2 hover:bg-gray-100">
+                  <Link to="/OurCourses/competitive" className="block px-4 py-2 hover:bg-gray-100">
                     Competitive Exams
                   </Link>
                 </li>
