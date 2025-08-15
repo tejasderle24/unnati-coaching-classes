@@ -2,6 +2,7 @@ import express from 'express';
 import { getFaculty, createFaculty } from '../controllers/faculty.controller.js';
 import { createCourses, deleteCourses, getCourses, updateCourses } from '../controllers/courses.controller.js';
 import { createGallery, deleteGallery, getGallery, updateGallery } from '../controllers/gallery.controller.js';
+import { createContact, getContact } from '../controllers/contact.controller.js';
 
 const router = express.Router();
 
@@ -21,6 +22,9 @@ router.post('/gallery',createGallery );
 router.put('/gallery/:id',updateGallery );
 router.delete('/gallery:id',deleteGallery );
 
+// = = = = = Contact Members = = = = = 
+router.get('/contact',getContact );
+router.post('/contact',createContact );
 
 
 
