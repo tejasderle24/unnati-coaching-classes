@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import { About, Admission, Contact,  Gallery, Home, Results, OurCourses } from './pages'
+import { About, Admission, Contact,  Gallery, Home, Results, Courses } from './pages'
 import { Route, Router, Routes } from 'react-router-dom'
 
 const App = () => {
@@ -10,7 +10,7 @@ const App = () => {
       <div className="p-6">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path='/ourcourses' element={<OurCourses/>} />
+          <Route path='/courses' element={<Courses/>} />
           <Route path="/about" element={<About />} />
           {/* <Route path="/courses/:type" element={<Courses />} /> */}
           <Route path="/results" element={<Results />} />
