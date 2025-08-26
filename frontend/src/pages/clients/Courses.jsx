@@ -112,7 +112,7 @@ const Courses = () => {
     <div className="bg-gray-50 font-sans">
       {/* Title */}
       <section className="text-center py-10 sm:py-12 lg:py-16 px-4">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-800">
+        <h2 className="text-4xl sm:text-4xl lg:text-5xl font-bold text-blue-800">
           Our Courses
         </h2>
         <p className="text-gray-600 mt-4 max-w-3xl mx-auto text-sm sm:text-base">
