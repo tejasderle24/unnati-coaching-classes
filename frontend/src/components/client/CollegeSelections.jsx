@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
 
 const CollegeSelections = () => {
   const colleges = [
@@ -39,7 +40,7 @@ const CollegeSelections = () => {
           onClick={() => scroll("left")}
           className="absolute left-2 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 z-10 hidden sm:block"
         >
-          <ChevronLeft className="w-6 h-6 text-blue-600" />
+          <FaChevronLeft className="w-6 h-6 text-blue-600" />
         </button>
 
         {/* Scrollable Row */}
@@ -67,7 +68,7 @@ const CollegeSelections = () => {
           onClick={() => scroll("right")}
           className="absolute right-2 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 z-10 hidden sm:block"
         >
-          <ChevronRight className="w-6 h-6 text-blue-600" />
+          <FaChevronRight className="w-6 h-6 text-blue-600" />
         </button>
       </div>
     </section>

@@ -1,4 +1,5 @@
-import { Award } from "lucide-react";
+import { FaAward } from "react-icons/fa";
+
 import tech1 from "../../assets/faculty/tech1.jpg";
 import tech2 from "../../assets/faculty/tech2.jpg";
 import tech3 from "../../assets/faculty/tech3.jpg";
@@ -107,7 +108,7 @@ const StarPerformers = () => {
 
             {/* Badge */}
             <div className="border-t px-3 sm:px-4 py-2 flex items-center justify-center space-x-2 text-yellow-600 font-semibold text-xs sm:text-sm">
-              <Award size={14} className="sm:w-4 sm:h-4" />
+              <FaAward size={14} className="sm:w-4 sm:h-4" />
               <span>Top Achiever</span>
             </div>
           </div>
