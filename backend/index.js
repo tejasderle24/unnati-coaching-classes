@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
 import userRoutes from './routes/user.routes.js';
 import homeRoutes from './routes/home.routes.js';
+import cors from 'cors'
 
 // Load environment variables from .env file
 dotenv.config();
@@ -12,6 +13,8 @@ const PORT = process.env.PORT || 4000;
 
 // Create an Express application
 const app = express();
+
+app.use('*')
 
 // connect to MongoDB
 connectDB();
