@@ -7,5 +7,5 @@ import Gallery from "./clients/Gallery";
 import Results from "./clients/Results";
 
 export {
-    Home, About, Admission, Contact, Courses, Gallery, Results
+    Home, About, Admission, Contact, Gallery, Results,Courses
 }
