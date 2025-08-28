@@ -1,9 +1,9 @@
 // components/StudentRegister.jsx
 import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
-
 import axios from "axios"
 import { API } from "../../api";
+import toast from "react-hot-toast";
 
 const StudentRegister = ({ isOpen, onClose, onRegisterSuccess }) => {
   if (!isOpen) return null;
@@ -14,25 +14,17 @@ const StudentRegister = ({ isOpen, onClose, onRegisterSuccess }) => {
     password: ""
   });
 
-  const handleChange = () => {
-    setFormData(...formData)
-  }
-
-  // const handleSubmit = (e) => {npm 
-  //   e.preventDefault();
-  //   onClose(); // close register modal
-  //   onRegisterSuccess(); // open OTP modal
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API}/api/student/register`, formData)
-      alert("Register succesfully")
+      const res = await axios.post(`${API}/api/auth/register`, formData)
+      toast.success("Register succesfully")
+      onRegisterSuccess(); // open OTP modal
 
     } catch (error) {
-      console.error("registration error:", error)
-
+      console.error("registration error:", error.response?.data?.message)
+      toast.error(error.response?.data?.message)
+      onClose();
     }
   }
 
@@ -52,10 +44,10 @@ const StudentRegister = ({ isOpen, onClose, onRegisterSuccess }) => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
-            type="text" 
+            type="text"
             placeholder="Full Name"
             value={formData.name}
-            onChange={(e)=>setFormData({...formData,name:e.target.value}) }
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
@@ -63,7 +55,7 @@ const StudentRegister = ({ isOpen, onClose, onRegisterSuccess }) => {
           <input type="email"
             placeholder="Email"
             value={formData.email}
-            onChange={(e)=>setFormData({...formData,email:e.target.value}) }
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
@@ -72,7 +64,7 @@ const StudentRegister = ({ isOpen, onClose, onRegisterSuccess }) => {
             type="password"
             placeholder="Password"
             value={formData.password}
-            onChange={ (e)=>setFormData({...formData,password:e.target.value})}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />

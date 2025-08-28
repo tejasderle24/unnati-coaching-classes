@@ -3,11 +3,11 @@ export const API = import.meta.env.VITE_BASE_URI
 
 
 /* 
-`${API}/api/students/register`
-`${API}/api/students/verify`
-`${API}/api/students/login`
-`${API}/api/students/forgot-password`
-`${API}/api/students/reset-password`
+`${API}/api/aut/register`
+`${API}/api/auth/verify`
+`${API}/api/auth/login`
+`${API}/api/auth/forgot-password`
+`${API}/api/auth/reset-password`
 
 
 */

@@ -1,23 +1,29 @@
-
-// components/students/VerifyOtp.jsx
 import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import axios from "axios";
+import { API } from "../../api";
+import toast from "react-hot-toast";
 
-
-
-const VerifyOtp = ({ isOpen, onClose }) => {
+const VerifyOtp = ({ isOpen, onClose, email }) => {
   const [otp, setOtp] = useState("");
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Entered OTP:", otp);
+    try {
+      const res = await axios.post(`${API}/api/auth/verify`, {
+        email,   // email pass karna zaroori hai
+        otp
+      });
 
-    // Yaha OTP backend se verify hoga
-    alert("✅ OTP Verified Successfully!");
+      toast.success("OTP verified successfully!");
+      onClose(); // modal band kar do
 
-    onClose(); // sab close kardo
+    } catch (error) {
+      console.error("OTP error:", error.response?.data?.message);
+      toast.error(error.response?.data?.message || "Invalid or expired OTP");
+    }
   };
 
   return (
