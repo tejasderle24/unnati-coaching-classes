@@ -16,7 +16,7 @@ export default function DashboardLayout({children}) {
 
     const navItems = [
         { name: "dashboard", label: "Dashboard", icon: <Home size={18} />, path: "/dashboard" },
-        { name: "analytics", label: "Analytics", icon: <BarChart2 size={18} />, path: "/analytics" },
+        { name: "faculty", label: "Faculty", icon: <BarChart2 size={18} />, path: "/faculty" },
         { name: "settings", label: "Settings", icon: <Settings size={18} />, path: "/settings" },
     ];
 

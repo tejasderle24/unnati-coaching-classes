@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-
-const API = import.meta.env.VITE_BASE_URI || `http://localhost:4000`;
+import { API } from "../api";
 
 export default function LoginPage() {
   const [credentials, setCredentials] = useState({
