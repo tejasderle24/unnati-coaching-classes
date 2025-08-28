@@ -2,7 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
-import userRoutes from './routes/user.routes.js';
+import authRoutes from './routes/auth.routes.js';
+// import userRoutes from './routes/user.routes.js';
 import homeRoutes from './routes/home.routes.js';
 import cors from "cors"; 
 
@@ -30,7 +31,8 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 // Use user routes
-app.use('/api/student', userRoutes);
+app.use('/api/auth', authRoutes);
+// app.use('/api/student', userRoutes);
 app.use('/api/home', homeRoutes);
 
 
