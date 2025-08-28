@@ -1,53 +1,39 @@
-import { useState, useEffect, useRef } from 'react';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState, useRef } from 'react';
 
-const FacultyModal = ({ faculty, onClose, onSave }) => {
-  const [name, setName] = useState('');
-  const [subject, setSubject] = useState('Math');
-  const [experience, setExperience] = useState('');
-  const [qualification, setQualification] = useState('');
+const CourseModal = ({ course, onClose, onSave }) => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [duration, setDuration] = useState('');
+  const [batchSize, setBatchSize] = useState('');
+  const [price, setPrice] = useState('');
+  const [features, setFeatures] = useState('');
   const [image, setImage] = useState('');
+  const [popular, setPopular] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    if (faculty) {
-      setName(faculty.name || '');
-      setSubject(faculty.subject || 'Math');
-      setExperience(faculty.experience?.toString() || '');
-      setQualification(faculty.qualification || '');
-      setImage(faculty.image || '');
+    if (course) {
+      setTitle(course.title || '');
+      setDescription(course.description || '');
+      setDuration(course.duration || '');
+      setBatchSize(course.batchSize?.toString() || '');
+      setPrice(course.price?.toString() || '');
+      setFeatures(course.features?.join(', ') || '');
+      setImage(course.image || '');
+      setPopular(course.popular || false);
       
-      // If faculty has an image, set it as uploaded image
-      if (faculty.image) {
+      // If course has an image, set it as uploaded image
+      if (course.image) {
         setUploadedImage({
-          name: 'Faculty Image',
-          url: faculty.image
+          name: 'Course Image',
+          url: course.image
         });
       }
     }
-  }, [faculty]);
-
-  const validateForm = () => {
-    if (!name.trim()) {
-      toast.error('Name is required');
-      return false;
-    }
-    
-    if (!experience || isNaN(experience) || parseInt(experience) < 0) {
-      toast.error('Experience must be a positive number');
-      return false;
-    }
-    
-    if (!qualification.trim()) {
-      toast.error('Qualification is required');
-      return false;
-    }
-    
-    return true;
-  };
+  }, [course]);
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -83,7 +69,7 @@ const FacultyModal = ({ faculty, onClose, onSave }) => {
       reader.readAsDataURL(file);
     } catch (error) {
       console.error('Error uploading image:', error);
-      toast.error('Failed to upload image. Please try again.');
+      alert('Failed to upload image. Please try again.');
       setIsUploading(false);
     }
   };
@@ -95,18 +81,18 @@ const FacultyModal = ({ faculty, onClose, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!validateForm()) return;
-    
     setIsSubmitting(true);
-    
+
     try {
       await onSave({
-        name: name.trim(),
-        subject,
-        experience: parseInt(experience),
-        qualification: qualification.trim(),
-        image: image.trim()
+        title: title.trim(),
+        description: description.trim(),
+        duration: duration.trim(),
+        batchSize: parseInt(batchSize),
+        price: parseFloat(price),
+        features: features.split(',').map(f => f.trim()).filter(f => f),
+        image: image.trim(),
+        popular
       });
     } finally {
       setIsSubmitting(false);
@@ -115,10 +101,10 @@ const FacultyModal = ({ faculty, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-600/50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
-      <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full mx-auto p-6">
+      <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full mx-auto p-6">
         <div className="flex justify-between items-center pb-4 border-b">
           <h3 className="text-xl font-semibold text-gray-900">
-            {faculty ? 'Edit Faculty' : 'Add New Faculty'}
+            {course ? 'Edit Course' : 'Add New Course'}
           </h3>
           <button
             onClick={onClose}
@@ -131,71 +117,109 @@ const FacultyModal = ({ faculty, onClose, onSave }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <form onSubmit={handleSubmit} className="mt-4 space-y-4 max-h-96 overflow-y-auto pr-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                Title *
+              </label>
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="duration" className="block text-sm font-medium text-gray-700">
+                Duration *
+              </label>
+              <input
+                type="text"
+                id="duration"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                placeholder="e.g., 6 months"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+          </div>
+
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Name *
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+              Description *
             </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
               className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+              required
               disabled={isSubmitting}
             />
           </div>
 
-          <div>
-            <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
-              Subject *
-            </label>
-            <select
-              id="subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
-              disabled={isSubmitting}
-            >
-              <option value="Math">Math</option>
-              <option value="Physics">Physics</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Biology">Biology</option>
-            </select>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="batchSize" className="block text-sm font-medium text-gray-700">
+                Batch Size *
+              </label>
+              <input
+                type="number"
+                id="batchSize"
+                min="1"
+                value={batchSize}
+                onChange={(e) => setBatchSize(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+                Price ($) *
+              </label>
+              <input
+                type="number"
+                id="price"
+                min="0"
+                step="0.01"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
           </div>
 
           <div>
-            <label htmlFor="experience" className="block text-sm font-medium text-gray-700">
-              Experience (years) *
+            <label htmlFor="features" className="block text-sm font-medium text-gray-700">
+              Features (comma separated) *
             </label>
-            <input
-              type="number"
-              id="experience"
-              min="0"
-              value={experience}
-              onChange={(e) => setExperience(e.target.value)}
+            <textarea
+              id="features"
+              value={features}
+              onChange={(e) => setFeatures(e.target.value)}
+              rows={2}
               className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
-              disabled={isSubmitting}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="qualification" className="block text-sm font-medium text-gray-700">
-              Qualification *
-            </label>
-            <input
-              type="text"
-              id="qualification"
-              value={qualification}
-              onChange={(e) => setQualification(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+              placeholder="e.g., Live Classes, Recorded Sessions, Certificate"
+              required
               disabled={isSubmitting}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Faculty Image
+              Course Image
             </label>
             
             {uploadedImage ? (
@@ -251,6 +275,20 @@ const FacultyModal = ({ faculty, onClose, onSave }) => {
             )}
           </div>
 
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="popular"
+              checked={popular}
+              onChange={(e) => setPopular(e.target.checked)}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              disabled={isSubmitting}
+            />
+            <label htmlFor="popular" className="ml-2 block text-sm text-gray-900">
+              Mark as popular course
+            </label>
+          </div>
+
           <div className="flex justify-end space-x-3 pt-4">
             <button
               type="button"
@@ -265,7 +303,7 @@ const FacultyModal = ({ faculty, onClose, onSave }) => {
               className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition duration-200 disabled:opacity-50"
               disabled={isSubmitting || isUploading}
             >
-              {isSubmitting ? 'Saving...' : (faculty ? 'Update' : 'Create')}
+              {isSubmitting ? 'Saving...' : (course ? 'Update' : 'Create')}
             </button>
           </div>
         </form>
@@ -274,4 +312,4 @@ const FacultyModal = ({ faculty, onClose, onSave }) => {
   );
 };
 
-export default FacultyModal;
+export default CourseModal;

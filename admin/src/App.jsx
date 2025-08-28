@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardLayout from "./layouts/DashboardLayout";
-import { Dashboard, FacultyManagement } from "./pages";
+import { ContactManagement, CoursesManagement, Dashboard, EnquiryManagement, FacultyManagement, GalleryManagement } from "./pages";
 import LoginPage from "./components/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Unauthorized from "./components/Unauthorized";
@@ -28,6 +28,46 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <FacultyManagement />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/enquiry"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <EnquiryManagement />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ContactManagement />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/courses"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <CoursesManagement />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/gallery"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <GalleryManagement />
               </DashboardLayout>
             </ProtectedRoute>
           }

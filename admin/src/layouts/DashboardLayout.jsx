@@ -17,7 +17,10 @@ export default function DashboardLayout({children}) {
     const navItems = [
         { name: "dashboard", label: "Dashboard", icon: <Home size={18} />, path: "/dashboard" },
         { name: "faculty", label: "Faculty", icon: <BarChart2 size={18} />, path: "/faculty" },
-        { name: "settings", label: "Settings", icon: <Settings size={18} />, path: "/settings" },
+        { name: "enquiry", label: "Enquiry", icon: <Settings size={18} />, path: "/enquiry" },
+        { name: "contact", label: "Contact", icon: <Settings size={18} />, path: "/contact" },
+        { name: "courses", label: "Courses", icon: <Settings size={18} />, path: "/courses" },
+        { name: "gallery", label: "gallery", icon: <Settings size={18} />, path: "/gallery" },
     ];
 
     return (
