@@ -1,26 +1,37 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Menu, Home, BarChart2, Settings, X, Bell, Search, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Menu, Home, BarChart2, Settings, X, Bell, Search, LogOut, Users, BookOpen, Image, Mail, MessageCircle } from "lucide-react";
 
-export default function DashboardLayout({children}) {
+export default function DashboardLayout({ children }) {
     const [isOpen, setIsOpen] = useState(false);
     const [activePage, setActivePage] = useState("dashboard");
+    const navigate = useNavigate();
+    const location = useLocation();
 
-      const navigate = useNavigate();
+    // Set active page based on current URL path
+    useEffect(() => {
+        const path = location.pathname;
+        if (path === "/dashboard") setActivePage("dashboard");
+        else if (path === "/faculty") setActivePage("faculty");
+        else if (path === "/enquiry") setActivePage("enquiry");
+        else if (path === "/contact") setActivePage("contact");
+        else if (path === "/courses") setActivePage("courses");
+        else if (path === "/gallery") setActivePage("gallery");
+    }, [location.pathname]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('isAdmin');
-        navigate('/');
+        navigate('/login');
     };
 
     const navItems = [
         { name: "dashboard", label: "Dashboard", icon: <Home size={18} />, path: "/dashboard" },
-        { name: "faculty", label: "Faculty", icon: <BarChart2 size={18} />, path: "/faculty" },
-        { name: "enquiry", label: "Enquiry", icon: <Settings size={18} />, path: "/enquiry" },
-        { name: "contact", label: "Contact", icon: <Settings size={18} />, path: "/contact" },
-        { name: "courses", label: "Courses", icon: <Settings size={18} />, path: "/courses" },
-        { name: "gallery", label: "gallery", icon: <Settings size={18} />, path: "/gallery" },
+        { name: "faculty", label: "Faculty", icon: <Users size={18} />, path: "/faculty" },
+        { name: "courses", label: "Courses", icon: <BookOpen size={18} />, path: "/courses" },
+        { name: "gallery", label: "Gallery", icon: <Image size={18} />, path: "/gallery" },
+        { name: "enquiry", label: "Enquiries", icon: <MessageCircle size={18} />, path: "/enquiry" },
+        { name: "contact", label: "Contacts", icon: <Mail size={18} />, path: "/contact" },
     ];
 
     return (
@@ -29,14 +40,14 @@ export default function DashboardLayout({children}) {
             <aside
                 className={`fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-indigo-600 to-indigo-800 text-white shadow-xl transform transition-transform duration-300 z-20 
           ${isOpen ? "translate-x-0" : "-translate-x-full"} 
-          md:translate-x-0`}
+          md:translate-x-0 md:static`}
             >
                 <div className="flex items-center justify-between p-5 border-b border-indigo-500">
                     <span className="text-xl font-bold flex items-center gap-2">
                         <div className="p-1 bg-white rounded-md">
                             <BarChart2 size={20} className="text-indigo-600" />
                         </div>
-                        ADMIN PANAL
+                        ADMIN PANEL
                     </span>
                     {/* Close button (mobile only) */}
                     <button
@@ -57,8 +68,8 @@ export default function DashboardLayout({children}) {
                                 setActivePage(item.name);
                             }}
                             className={`flex items-center gap-3 p-3 rounded-lg transition-all ${activePage === item.name
-                                ? "bg-white text-indigo-600 shadow-md"
-                                : "hover:bg-indigo-500"
+                                ? "bg-white text-indigo-600 shadow-md font-medium"
+                                : "hover:bg-indigo-500 text-white"
                                 }`}
                         >
                             {item.icon} {item.label}
@@ -69,7 +80,8 @@ export default function DashboardLayout({children}) {
                 <div className="absolute bottom-0 w-full p-4 border-t border-indigo-500">
                     <button
                         onClick={handleLogout}
-                        className="flex items-center gap-2 w-full p-2 text-sm rounded-lg hover:bg-indigo-500 transition-colors">
+                        className="flex items-center gap-2 w-full p-2 text-sm rounded-lg hover:bg-indigo-500 transition-colors text-white"
+                    >
                         <LogOut size={16} /> Sign Out
                     </button>
                 </div>
@@ -84,9 +96,9 @@ export default function DashboardLayout({children}) {
             )}
 
             {/* Main content area */}
-            <div className="flex-1 flex flex-col md:ml-64">
+            <div className="flex-1 flex flex-col overflow-hidden">
                 {/* Header */}
-                <header className="h-16 bg-white border-b shadow-sm flex items-center justify-between px-6 fixed top-0 left-0 md:left-64 right-0 z-10">
+                <header className="h-16 bg-white border-b shadow-sm flex items-center justify-between px-6 sticky top-0 z-10">
                     <div className="flex items-center gap-4">
                         {/* Menu toggle button (mobile only) */}
                         <button
@@ -114,8 +126,11 @@ export default function DashboardLayout({children}) {
                         </button>
 
                         <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
+                                <span className="text-indigo-600 font-medium">T</span>
+                            </div>
                             <div className="text-right hidden sm:block">
-                                <p className="text-sm font-medium">Tejas Derle!</p>
+                                <p className="text-sm font-medium">Tejas Derle</p>
                                 <p className="text-xs text-gray-500">Administrator</p>
                             </div>
                         </div>
@@ -123,9 +138,8 @@ export default function DashboardLayout({children}) {
                 </header>
 
                 {/* Page content */}
-                <main className="mt-16 p-6 overflow-y-auto flex-1">
+                <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
                     <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                        {/* <Outlet /> */}
                         {children}
                     </div>
                 </main>
