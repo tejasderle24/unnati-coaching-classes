@@ -1,13 +1,16 @@
-import { useAuth } from './AuthContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 
+export default function ProtectedRoute({ children, adminOnly = false }) {
+  const token = localStorage.getItem("token");
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
-  
-  if (loading) {
-    return <div>Loading...</div>; // Add a proper loading spinner
+  if (!token) {
+    return <Navigate to="/login" replace />;
   }
-  
-  return isAuthenticated ? children : <Navigate to="/login" />;
-};
+
+  if (adminOnly && !isAdmin) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  return children;
+}

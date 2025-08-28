@@ -1,7 +1,10 @@
-import { useState} from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff, Mail, Lock, AlertCircle, User } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
+import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+
+const API = import.meta.env.VITE_BASE_URI || `http://localhost:4000`;
 
 export default function LoginPage() {
   const [credentials, setCredentials] = useState({
@@ -12,7 +15,6 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,23 +22,35 @@ export default function LoginPage() {
       ...credentials,
       [e.target.name]: e.target.value,
     });
-    // Clear error when user starts typing
-    if (error) setError("");
+    if (error) setError(""); // clear error on typing
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
 
-    const result = await login(credentials);
+    try {
+      // Admin login request
+      const response = await axios.post(`${API}/api/auth/admin`, {
+        email: credentials.email,
+        password: credentials.password,
+      });
 
-    if (result.success) {
-      navigate("/dashboard");
-    } else {
-      setError(result.error);
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("isAdmin", "true");
+
+        toast.success("Admin login successful!");
+        navigate("/dashboard");
+      } else {
+        toast.error(response.data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      toast.error(error.response?.data?.message || "Invalid admin credentials");
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
@@ -44,7 +58,7 @@ export default function LoginPage() {
       <div className="max-w-md w-full bg-white rounded-2xl shadow-lg overflow-hidden">
         <div className="p-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Admin Panal</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Admin Panel</h2>
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -55,6 +69,7 @@ export default function LoginPage() {
               </div>
             )}
 
+            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -80,6 +95,7 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* Password */}
             <div>
               <label
                 htmlFor="password"
@@ -118,6 +134,7 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* Remember Me */}
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
@@ -135,6 +152,7 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* Submit Button */}
             <div>
               <button
                 type="submit"
@@ -154,4 +172,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

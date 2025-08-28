@@ -1,13 +1,18 @@
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, Home, BarChart2, Settings, X, Bell, Search, LogOut } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
 
-export default function DashboardLayout() {
+export default function DashboardLayout({children}) {
     const [isOpen, setIsOpen] = useState(false);
     const [activePage, setActivePage] = useState("dashboard");
 
-    const { logout } = useAuth();
+      const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('isAdmin');
+        navigate('/');
+    };
 
     const navItems = [
         { name: "dashboard", label: "Dashboard", icon: <Home size={18} />, path: "/dashboard" },
@@ -60,7 +65,7 @@ export default function DashboardLayout() {
 
                 <div className="absolute bottom-0 w-full p-4 border-t border-indigo-500">
                     <button
-                        onClick={logout}
+                        onClick={handleLogout}
                         className="flex items-center gap-2 w-full p-2 text-sm rounded-lg hover:bg-indigo-500 transition-colors">
                         <LogOut size={16} /> Sign Out
                     </button>
@@ -117,7 +122,8 @@ export default function DashboardLayout() {
                 {/* Page content */}
                 <main className="mt-16 p-6 overflow-y-auto flex-1">
                     <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                        <Outlet />
+                        {/* <Outlet /> */}
+                        {children}
                     </div>
                 </main>
             </div>
