@@ -1,8 +1,25 @@
-    import React, { useState } from "react";
+
+import React, { useState } from "react";
 
 const ResetPassword = ({ isOpen, onClose }) => {
-  const [otp, setOtp] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [state, setState] = useState({
+    otp: "",
+    newPassword: ""
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${API}/api/auth/reset-password`, state)
+      toast.success("password succesfully")
+      onNewPasswordSuccess(); // open OTP modal
+
+    } catch (error) {
+      console.error("password error:", error.response?.data?.message)
+      toast.error(error.response?.data?.message)
+      onClose();
+    }
+  }
 
   if (!isOpen) return null;
 
@@ -18,19 +35,21 @@ const ResetPassword = ({ isOpen, onClose }) => {
         <input
           type="text"
           placeholder="Enter OTP"
-          value={otp}
-          onChange={(e) => setOtp(e.target.value)}
+          value={state.otp}
+          onChange={(e) => setState({ ...state, otp: e.target.value })}
           className="w-full px-4 py-2 border rounded mb-3"
         />
         <input
           type="password"
           placeholder="Enter New Password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          className="w-full px-4 py-2 border rounded mb-3"
+          value={state.newPassword}
+          onChange={(e) => setState({ ...state, newPassword: e.target.value })}
+        className="w-full px-4 py-2 border rounded mb-3"
         />
 
-        <button className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+        <button
+          onClick={handleSubmit}
+          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
           Reset Password
         </button>
       </div>
