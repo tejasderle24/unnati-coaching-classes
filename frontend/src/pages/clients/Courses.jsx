@@ -1,113 +1,143 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import pcm from "../../assets/courses/pcm.png";
 import pcb from "../../assets/courses/pcb.webp";
 import pcmb from "../../assets/courses/pcmb.png";
 import jee from "../../assets/courses/jee.jpg";
 import neet from "../../assets/courses/neet.jpeg";
 import mhtCet from "../../assets/courses/mhtCet.webp";
+import { API } from "../../api";
+import axios from 'axios'
 
-const coursesData = [
-  {
-    title: "PCM Foundation (11th-12th)",
-    desc: "Strong foundation for Class (11th-12th) Physics, Chemistry & Mathematics",
-    duration: "1 Year",
-    students: "40 Students",
-    price: "₹75,000",
-    features: [
-      "NCERT + Advanced concepts",
-      "Weekly assignments",
-      "Regular doubt solving",
-      "Chapter-wise tests",
-      "Study notes provided",
-      "Monthly performance report",
-    ],
-    img: pcm,
-    popular: true,
-  },
-  {
-    title: "PCB Foundation (11th-12th)",
-    desc: "Strong foundation for Class 11 Physics, Chemistry & Biology",
-    duration: "1 Year",
-    students: "40 Students",
-    price: "₹80,000",
-    features: [
-      "NCERT + Advanced concepts",
-      "Weekly assignments",
-      "Practical based learning",
-      "Regular doubt sessions",
-      "Chapter-wise tests",
-      "Monthly progress reports",
-    ],
-    img: pcb,
-  },
-  {
-    title: "PCMB Foundation (11th-12th)",
-    desc: "Comprehensive foundation for Class 11 Physics, Chemistry, Maths & Biology",
-    duration: "1 Year",
-    students: "40 Students",
-    price: "₹95,000",
-    features: [
-      "NCERT + Advanced concepts",
-      "Weekly assignments & DPPs",
-      "Regular doubt sessions",
-      "Chapter-wise tests",
-      "Study notes provided",
-      "Monthly progress reports",
-    ],
-    img: pcmb,
-  },
-  {
-    title: "JEE Crash Course",
-    desc: "Intensive last-minute preparation for JEE",
-    duration: "6 Months",
-    students: "25 Students",
-    price: "₹80,000",
-    features: [
-      "High-yield topics focus",
-      "Intensive practice sessions",
-      "Strategy and tips",
-      "Time management",
-      "Mock test series",
-      "Revision materials",
-    ],
-    img: jee,
-  },
-  {
-    title: "NEET Crash Course",
-    desc: "Quick revision and practice for NEET aspirants",
-    duration: "4 Months",
-    students: "20 Students",
-    price: "₹60,000",
-    features: [
-      "Important topics revision",
-      "Quick problem solving",
-      "Exam strategies",
-      "Time optimization",
-      "Mock test analysis",
-      "Last minute tips",
-    ],
-    img: neet,
-  },
-  {
-    title: "MHT-CET Foundation",
-    desc: "Strong foundation for Class 11 PCM/PCB with CET focus",
-    duration: "1 Year",
-    students: "40 Students",
-    price: "₹80,000",
-    features: [
-      "NCERT + CET oriented syllabus",
-      "Weekly assignments",
-      "Doubt clearing sessions",
-      "Unit-wise tests",
-      "Study notes provided",
-      "Monthly progress reports",
-    ],
-    img: mhtCet,
-    popular: true,
-  },
-];
+// const coursesData = [
+//   {
+//     title: "PCM Foundation (11th-12th)",
+//     desc: "Strong foundation for Class (11th-12th) Physics, Chemistry & Mathematics",
+//     duration: "1 Year",
+//     students: "40 Students",
+//     price: "₹75,000",
+//     features: [
+//       "NCERT + Advanced concepts",
+//       "Weekly assignments",
+//       "Regular doubt solving",
+//       "Chapter-wise tests",
+//       "Study notes provided",
+//       "Monthly performance report",
+//     ],
+//     img: pcm,
+//     popular: true,
+//   },
+//   {
+//     title: "PCB Foundation (11th-12th)",
+//     desc: "Strong foundation for Class 11 Physics, Chemistry & Biology",
+//     duration: "1 Year",
+//     students: "40 Students",
+//     price: "₹80,000",
+//     features: [
+//       "NCERT + Advanced concepts",
+//       "Weekly assignments",
+//       "Practical based learning",
+//       "Regular doubt sessions",
+//       "Chapter-wise tests",
+//       "Monthly progress reports",
+//     ],
+//     img: pcb,
+//   },
+//   {
+//     title: "PCMB Foundation (11th-12th)",
+//     desc: "Comprehensive foundation for Class 11 Physics, Chemistry, Maths & Biology",
+//     duration: "1 Year",
+//     students: "40 Students",
+//     price: "₹95,000",
+//     features: [
+//       "NCERT + Advanced concepts",
+//       "Weekly assignments & DPPs",
+//       "Regular doubt sessions",
+//       "Chapter-wise tests",
+//       "Study notes provided",
+//       "Monthly progress reports",
+//     ],
+//     img: pcmb,
+//   },
+//   {
+//     title: "JEE Crash Course",
+//     desc: "Intensive last-minute preparation for JEE",
+//     duration: "6 Months",
+//     students: "25 Students",
+//     price: "₹80,000",
+//     features: [
+//       "High-yield topics focus",
+//       "Intensive practice sessions",
+//       "Strategy and tips",
+//       "Time management",
+//       "Mock test series",
+//       "Revision materials",
+//     ],
+//     img: jee,
+//   },
+//   {
+//     title: "NEET Crash Course",
+//     desc: "Quick revision and practice for NEET aspirants",
+//     duration: "4 Months",
+//     students: "20 Students",
+//     price: "₹60,000",
+//     features: [
+//       "Important topics revision",
+//       "Quick problem solving",
+//       "Exam strategies",
+//       "Time optimization",
+//       "Mock test analysis",
+//       "Last minute tips",
+//     ],
+//     img: neet,
+//   },
+//   {
+//     title: "MHT-CET Foundation",
+//     desc: "Strong foundation for Class 11 PCM/PCB with CET focus",
+//     duration: "1 Year",
+//     students: "40 Students",
+//     price: "₹80,000",
+//     features: [
+//       "NCERT + CET oriented syllabus",
+//       "Weekly assignments",
+//       "Doubt clearing sessions",
+//       "Unit-wise tests",
+//       "Study notes provided",
+//       "Monthly progress reports",
+//     ],
+//     img: mhtCet,
+//     popular: true,
+//   },
+// ];
+
 
 const Courses = () => {
+
+  const [course, setCourse] = useState([]);
+  const [loading, setLoading] = useState("");
+
+  const fetchCourse= async () => {
+  try {
+      const res = await axios.get(`${API}/api/home/courses`);
+      console.log(res.data)
+
+      if (Array.isArray(res.data.data)) {
+        setCourse(res.data.data);
+      } else {
+        setCourse([])
+      }
+
+    } catch (error) {
+      console.error("ERROR",error)
+    }
+    finally{
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchCourse();
+  }, []);
+
   return (
     <div className="bg-gray-50 font-sans">
       {/* Title */}
@@ -124,14 +154,14 @@ const Courses = () => {
 
       {/* Courses Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {coursesData.map((course, index) => (
+        {course.map((course, index) => (
           <div
             key={index}
             className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition"
           >
             <div className="relative">
               <img
-                src={course.img}
+                src={course.image}
                 alt={course.title}
                 className="h-40 sm:h-48 lg:h-56 w-full object-cover"
               />
