@@ -1,9 +1,11 @@
 import express from 'express';
 import { createFaculty, deleteFaculty, updateFaculty, getFacultyById, getAllFaculty } from '../controllers/faculty.controller.js';
-import { createCourse, deleteCourse,  getAllCourses, getCourseById, updateCourse } from '../controllers/courses.controller.js';
+import { createCourse, deleteCourse, getAllCourses, getCourseById, updateCourse } from '../controllers/courses.controller.js';
 import { createGallery, deleteGallery, getAllGalleries, getGalleryById, updateGallery } from '../controllers/gallery.controller.js';
 import { createContact, deleteContact, getAllContacts, getContactById, updateContact } from '../controllers/contact.controller.js';
 import { createEnquiry, deleteEnquiry, getAllEnquiries, getEnquiryById, updateEnquiry, } from '../controllers/Enquiry.controller.js';
+import { createTopper, deleteTopper, getTopperById, getToppers, updateTopper } from '../controllers/topper.controller.js';
+import { createFeedback, deleteFeedback, getFeedbackById, getFeedbacks, updateFeedback } from '../controllers/feedback.controller.js';
 
 const router = express.Router();
 
@@ -44,7 +46,19 @@ router.put("/enquiry/:id", updateEnquiry);     // Update
 router.delete("/enquiry/:id", deleteEnquiry);  // Delete
 
 
+// = = = = = Toppers = = = = = 
+router.post("/result", createTopper);     // Add new topper
+router.get("/result", getToppers);        // Get all toppers
+router.get("/result/:id", getTopperById);  // Get topper by ID
+router.put("/result/:id", updateTopper);   // Update topper
+router.delete("/result/:id", deleteTopper);// Delete topper
 
+// = = = = = Feedback = = = = = 
+router.post("/feedback", createFeedback);     // Add new feedback
+router.get("/feedback", getFeedbacks);        // Get all feedbacks
+router.get("/feedback/:id", getFeedbackById);  // Get feedback by ID
+router.put("/feedback/:id", updateFeedback);   // Update feedback
+router.delete("/feedback/:id", deleteFeedback);// Delete feedback
 
 
 export default router;
