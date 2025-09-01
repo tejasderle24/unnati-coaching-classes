@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import {API} from '../../api'
 import about from '../../assets/about.jpg';
-import tech1 from "../../assets/faculty/tech1.jpg";
-import tech2 from "../../assets/faculty/tech2.jpg";
-import tech3 from "../../assets/faculty/tech3.jpg";
-import tech4 from "../../assets/faculty/tech4.jpg";
+
 import {
   BookOpen,
   Target,
@@ -23,7 +20,6 @@ const About = () => {
 
   const [faculty, setFaculty] = useState([]);
   const [loading, setLoading] = useState("");
-
 
   const reasons = [
     {
@@ -52,39 +48,7 @@ const About = () => {
     },
   ];
 
-  // const faculty = [
-  //   {
-  //     name: "Dr. Rajesh Kumar",
-  //     subject: "Physics",
-  //     experience: "15+ years Experience",
-  //     qualification: "Ph.D in Physics, IIT Delhi",
-  //     image: tech1,
-  //   },
-  //   {
-  //     name: "Prof. Sunita Singh",
-  //     subject: "Chemistry",
-  //     experience: "12+ years Experience",
-  //     qualification: "M.Sc Chemistry, Gold Medalist",
-  //     image: tech2,
-  //   },
-  //   {
-  //     name: "Dr. Amit Verma",
-  //     subject: "Mathematics",
-  //     experience: "18+ years Experience",
-  //     qualification: "Ph.D Mathematics, IISc Bangalore",
-  //     image: tech3,
-  //   },
-  //   {
-  //     name: "Dr. Kavita Sharma",
-  //     subject: "Biology",
-  //     experience: "10+ years Experience",
-  //     qualification: "Ph.D in Biology, AIIMS Delhi",
-  //     image: tech4,
-  //   },
-  // ];
-
-
-  const fetchFaculty = async () => {
+    const fetchFaculty = async () => {
     try {
       const res = await axios.get(`${API}/api/home/faculty`);
       console.log(res.data)
@@ -259,11 +223,11 @@ const About = () => {
                 key={index}
                 className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition"
               >
-                <div className="w-full h-40 sm:h-48 flex justify-center items-center">
+                <div className="w-full h-40 sm:h-48 flex justify-center items-center bg-gray-100">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-28 h-28 sm:w-40 sm:h-40 object-cover shadow-md"
+                    className="max-h-full max-w-full object-cover"
                   />
                 </div>
                 <div className="p-4 sm:p-6 text-center">
@@ -274,10 +238,10 @@ const About = () => {
                     {member.subject}
                   </p>
                   <p className="text-gray-600 text-xs sm:text-sm mt-2">
-                    {member.experience}
+                    {member.experience} + year experience
                   </p>
                   <p className="text-gray-500 text-xs sm:text-sm">
-                    {member.qualification}
+                    {member.qualification} 
                   </p>
                 </div>
               </div>
