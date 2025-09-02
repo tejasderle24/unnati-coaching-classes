@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardLayout from "./layouts/DashboardLayout";
-import { ContactManagement, CoursesManagement, Dashboard, EnquiryManagement, FacultyManagement, GalleryManagement } from "./pages";
+import { ContactManagement, CoursesManagement, Dashboard, EnquiryManagement, FacultyManagement, GalleryManagement, StudentFeedback, TopperResult } from "./pages";
 import LoginPage from "./components/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Unauthorized from "./components/Unauthorized";
@@ -68,6 +68,26 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <GalleryManagement />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/topper"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <TopperResult />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student-feedback"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <StudentFeedback />
               </DashboardLayout>
             </ProtectedRoute>
           }

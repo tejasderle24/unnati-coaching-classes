@@ -17,6 +17,8 @@ export default function DashboardLayout({ children }) {
         else if (path === "/contact") setActivePage("contact");
         else if (path === "/courses") setActivePage("courses");
         else if (path === "/gallery") setActivePage("gallery");
+        else if (path === "/topper") setActivePage("topper");
+        else if (path === "/student-feedback") setActivePage("student-feedback");
     }, [location.pathname]);
 
     const handleLogout = () => {
@@ -29,9 +31,11 @@ export default function DashboardLayout({ children }) {
         { name: "dashboard", label: "Dashboard", icon: <Home size={18} />, path: "/dashboard" },
         { name: "faculty", label: "Faculty", icon: <Users size={18} />, path: "/faculty" },
         { name: "courses", label: "Courses", icon: <BookOpen size={18} />, path: "/courses" },
+        { name: "topper", label: "Topper", icon: <Image size={18} />, path: "/topper" },
         { name: "gallery", label: "Gallery", icon: <Image size={18} />, path: "/gallery" },
         { name: "enquiry", label: "Enquiries", icon: <MessageCircle size={18} />, path: "/enquiry" },
         { name: "contact", label: "Contacts", icon: <Mail size={18} />, path: "/contact" },
+        { name: "student-feedback", label: "Student Feedbacks", icon: <Mail size={18} />, path: "/student-feedback" },
     ];
 
     return (
