@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { API } from "../../api";
 import axios from 'axios'
 
@@ -7,8 +8,8 @@ const Courses = () => {
   const [course, setCourse] = useState([]);
   const [loading, setLoading] = useState("");
 
-  const fetchCourse= async () => {
-  try {
+  const fetchCourse = async () => {
+    try {
       const res = await axios.get(`${API}/api/home/courses`);
       console.log(res.data)
 
@@ -19,9 +20,9 @@ const Courses = () => {
       }
 
     } catch (error) {
-      console.error("ERROR",error)
+      console.error("ERROR", error)
     }
-    finally{
+    finally {
       setLoading(false)
     }
   }
@@ -86,11 +87,21 @@ const Courses = () => {
                 ))}
               </ul>
 
-              <div className="mt-4 flex">
+              {/* <div className="mt-4 flex">
                 <button className="flex-1 bg-orange-500 text-white text-sm sm:text-base py-2 rounded hover:bg-orange-600">
                   Enroll Now
                 </button>
+              </div> */}
+
+              <div className="mt-4 flex">
+                <Link
+                  to="/admission"
+                  className="flex-1 bg-orange-500 text-white text-sm sm:text-base py-2 rounded hover:bg-orange-600 text-center"
+                >
+                  Enroll Now
+                </Link>
               </div>
+
             </div>
           </div>
         ))}
