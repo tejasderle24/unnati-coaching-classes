@@ -1,86 +1,49 @@
+import { useState, useEffect } from "react";  // ✅ Ye import karo
 import { Award } from "lucide-react";
-import tech1 from "../../assets/faculty/tech1.jpg";
-import tech2 from "../../assets/faculty/tech2.jpg";
-import tech3 from "../../assets/faculty/tech3.jpg";
-import tech4 from "../../assets/faculty/tech4.jpg";
+import axios from "axios";
+import { API } from "../../api";
 
 const StarPerformers = () => {
-  const toppers = [
-    {
-      name: "Arjun Mehta",
-      rank: "AIR 23",
-      exam: "JEE Advanced",
-      college: "IIT Bombay, Computer Science",
-      year: "2024",
-      img: tech1,
-    },
-    {
-      name: "Priya Sharma",
-      rank: "AIR 47",
-      exam: "NEET",
-      college: "AIIMS Delhi, MBBS",
-      year: "2025",
-      img: tech2,
-    },
-    {
-      name: "Rahul Singh",
-      rank: "99.98%ile",
-      exam: "JEE Main",
-      college: "NIT Trichy, Electrical Engineering",
-      year: "2024",
-      img: tech3,
-    },
-    {
-      name: "Kavya Patel",
-      rank: "AIR 89",
-      exam: "NEET",
-      college: "JIPMER, MBBS",
-      year: "2023",
-      img: tech4,
-    },
-    {
-      name: "Vikram Kumar",
-      rank: "AIR 156",
-      exam: "JEE Advanced",
-      college: "IIT Delhi, Mechanical Engineering",
-      year: "2024",
-      img: tech4,
-    },
-    {
-      name: "Sneha Agarwal",
-      rank: "AIR 203",
-      exam: "NEET",
-      college: "KGMU Lucknow, MBBS",
-      year: "2025",
-      img: tech3,
-    },
-    {
-      name: "Aditya Roy",
-      rank: "99.6%ile",
-      exam: "JEE Main",
-      college: "NIT Surathkal, Computer Science",
-      year: "2023",
-      img: tech4,
-    },
-    {
-      name: "Ananya Gupta",
-      rank: "AIR 267",
-      exam: "NEET",
-      college: "GMC Chandigarh, MBBS",
-      year: "2025",
-      img: tech2,
-    },
-  ];
+  const [result, setResult] = useState([]);   // ✅ ab component ke andar
+  const [loading, setLoading] = useState(false);
 
-  return (
+  // Fetch gallery data
+  const fetchResult = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`${API}/api/home/result`);
+      console.log(res.data);
+
+      if (res.data.success) {
+        setResult(res.data.toppers);
+      } 
+      else {
+        setResult([]);
+      }
+
+    } catch (error) {
+      console.error("ERROR", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchResult();
+  }, []);
+
+    return (
     <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h3 className="text-2xl sm:text-3xl font-bold text-center text-blue-800 mb-10">
         Our Star Performers
       </h3>
 
+      {/* Loader */}
+      {loading && <p className="text-center">Loading...</p>}
+
       {/* Responsive Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-        {toppers.map((student, i) => (
+        {result.map((student, i) => (
           <div
             key={i}
             className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition"
@@ -88,7 +51,7 @@ const StarPerformers = () => {
             {/* Image */}
             <div className="relative">
               <img
-                src={student.img}
+                src={student.img}  // <- API response me img field hona chahiye
                 alt={student.name}
                 className="w-full h-40 sm:h-48 object-cover"
               />
