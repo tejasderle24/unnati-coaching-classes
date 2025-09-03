@@ -30,9 +30,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Middleware for cookie parsing
 app.use(cookieParser());
 
-if (process.env.API_DISABLED === 'true') {
-  return res.status(503).send("API is temporarily disabled.");
-}
+// if (process.env.API_DISABLED === 'true') {
+//   return res.status(503).send("API is temporarily disabled.");
+// }
 
 
 // Use user routes
