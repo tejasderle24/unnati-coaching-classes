@@ -6,7 +6,7 @@ const ForgotPassword = ({ isOpen, onClose, onOtpSent }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-blure bg-opacity-100 flex items-center justify-center">
+    <div className="fixed inset-0 bg-gray-500 bg-opacity-100 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
         <button onClick={onClose} className="absolute top-3 right-3 text-gray-500 hover:text-red-500">
           ✖

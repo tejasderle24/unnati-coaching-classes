@@ -87,12 +87,6 @@ const Courses = () => {
                 ))}
               </ul>
 
-              {/* <div className="mt-4 flex">
-                <button className="flex-1 bg-orange-500 text-white text-sm sm:text-base py-2 rounded hover:bg-orange-600">
-                  Enroll Now
-                </button>
-              </div> */}
-
               <div className="mt-4 flex">
                 <Link
                   to="/admission"
@@ -101,7 +95,6 @@ const Courses = () => {
                   Enroll Now
                 </Link>
               </div>
-
             </div>
           </div>
         ))}
